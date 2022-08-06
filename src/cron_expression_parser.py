@@ -180,7 +180,7 @@ def main(expression: str) -> None:
 
 
 # IMP: should be wrapped with something to turn it into
-# a proper CLI
+#      a proper CLI
 def run() -> None:
     """
     Entrypoint for script, including for packaging
