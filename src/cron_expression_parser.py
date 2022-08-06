@@ -34,13 +34,12 @@ def parse_token(
     :param maximum: maximum value (inclusive) that is valid for this unit
     :return: an iterable that contains all the valid values for this token
     """
-    parts = token.split(STEP, maxsplit=1)
-    if len(parts) > 1:
-        repeated = int(parts[1])
-    else:
-        repeated = 1
+    match token.split(STEP, maxsplit=1):
+        case [token, repeated_string]:
+            repeated = int(repeated_string)
+        case [token]:
+            repeated = 1
 
-    token = parts[0]
     if "*" == token:
         begin = minimum
         end = maximum
