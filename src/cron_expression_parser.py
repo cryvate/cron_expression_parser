@@ -20,9 +20,9 @@ RANGE = "-"
 EMPTY_SPACE = " "
 
 
-# IMP this function and others will bail out when a bad
-# expression is given with little diagnostics. This
-# is not great UX, would improve this
+# IMP: this function and others will bail out when a bad
+#      expression is given with little diagnostics. This
+#      is not great UX, would improve this
 def parse_token(
     token: str,
     minimum: int,
@@ -34,29 +34,36 @@ def parse_token(
     :param maximum: maximum value (inclusive) that is valid for this unit
     :return: an iterable that contains all the valid values for this token
     """
+    # split the token between the
     match token.split(STEP, maxsplit=1):
-        case [token, repeated_string]:
-            repeated = int(repeated_string)
-        case [token]:
-            repeated = 1
+        case [start_end, step_string]:
+            step = int(step_string)
+        case [start_end]:
+            step = 1
+        case _:
+            # This path cannot be triggered. Helpful for type checking/linting
+            raise Exception("This should not be seen...")
 
-    if "*" == token:
+    if "*" == start_end:
         begin = minimum
         end = maximum
-    elif "-" in token:
-        begin_str, end_str = token.split(RANGE, maxsplit=1)
+    elif "-" in start_end:
+        begin_str, end_str = start_end.split(RANGE, maxsplit=1)
         begin = int(begin_str)
         end = int(end_str)
     else:
-        begin = int(token)
-        end = int(token)
+        begin = int(start_end)
+        end = int(start_end)
 
     if begin < minimum:
+        # IMP: this should have a sane message, but also, error handling needs
+        #      more thought in general
         raise ValueError()
     if end > maximum:
+        # IMP: same as above
         raise ValueError()
 
-    return range(begin, end + 1, repeated)
+    return range(begin, end + 1, step)
 
 
 def parse_tokens(
