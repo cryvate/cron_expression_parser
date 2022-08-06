@@ -1,10 +1,19 @@
 cron_expression_parser
 =====================
 
+Meta note: I have used `IMP:` as meta-comments on things I would change depending on circumstances/if this was not an
+exercise.
+
 How to run as CLI
 -----------------
 - Install Python 3.10+ due to typing annotations used, recommend [pyenv](https://github.com/pyenv/pyenv)
-- Enable this Python to be accessible using `python3`
+- Enable this Python to be accessible using `python3` and it might in theory be possible you need to upgrade `pip`:
+```bash
+pip3 install pip==22.0.4
+```
+IMP: this is not necessary with the proper packaged version, as those are backwards compatible much older versions
+pip, but I am using `pep-517` build system which is not available in all `pip`s (but probably in all that run on 3.10+
+but I have not checked)
 - Install using
 ```bash
 pip3 install git@github.com:cryvate/cron_expression_parser.git
