@@ -6,7 +6,7 @@ exercise.
 
 How to run as CLI
 -----------------
-- Install Python 3.10+ due to typing annotations used and some dubious pattern matching, 
+- Install Python 3.10+ due to typing annotations used and some dubious pattern matching,
   recommend [pyenv](https://github.com/pyenv/pyenv)
 - Enable this Python to be accessible using `python3` and it might in theory be possible you need to upgrade `pip`:
 ```bash
