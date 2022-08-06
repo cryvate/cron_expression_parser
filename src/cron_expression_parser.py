@@ -3,6 +3,14 @@ import typing
 
 # IMP: would be split into multiple files, but this (it being in one file)
 # might make iterating easier in interview
+
+# IMP: I love using constants, I don't like magic numbers in source that are not
+#      defined, even for things that seem stupid to abstract (e.g. the
+#      EMPTY_SPACE). The benefit is having a single-source-of-truth, which
+#      I have seen lead to so many bugs/regressions when things are changed,
+#      even when we're talking small numbers/chars like 0, 1, 2 and "-".
+#      It can also help with semantic separation (like units in physics)
+#      between two constants that are accidentally the same
 ORDER = {
     "minute": (0, 59),
     "hour": (0, 23),
@@ -11,8 +19,7 @@ ORDER = {
     "day of week": (1, 7),
 }
 COMMAND = "command"
-SPACING = 2
-PAD = len(max(*ORDER, COMMAND, key=lambda string: len(string))) + SPACING
+PADDING = 2
 WILDCARD = "*"
 SEPARATOR = ","
 STEP = "/"
@@ -111,6 +118,15 @@ def parse(command: list[str]) -> list[tuple[str, list[int]]]:
     ]
 
 
+# IMP: in theory, we don't need to pass tuple[str, X] around
+#      in this function and the ones below: instead could use
+#      X instead and use the keys from ORDER, however, this is
+#      not necessarily great design or robust for generalisation
+#      e.g. we currently don't support year, and this is optional
+#      in the cron "spec" from what I can tell so you would only
+#      want to output that line if present and also if this code
+#      was reused for other CLIs. I like the decoupling it brings
+#      between these functions
 def parsed_to_display_data(
     parsed: typing.Iterable[tuple[str, list[int]]]
 ) -> list[tuple[str, str]]:
@@ -133,8 +149,16 @@ def format_lines(row_data: typing.Iterable[tuple[str, str]]) -> str:
     :return: formatted two column data
     """
     lines = []
+
+    # IMP: I don't like this, all the rest of the functions work on-line,
+    #      and could be changed to use e.g. generators, yield (from) and
+    #      send, but this doesn't. Originally I calculated this statically
+    #      but this tightly couples this function to this particular instance
+    #      of the generic problem which seems unnecessary.
+    width = len(max(row_data, key=lambda header, _: len(header))) + PADDING
+
     for column, values in row_data:
-        preamble = column.ljust(PAD)
+        preamble = column.ljust(width)
         values_string = (str(value) for value in values.split(SEPARATOR))
         values = EMPTY_SPACE.join(values_string)
         lines.append(preamble + values)
