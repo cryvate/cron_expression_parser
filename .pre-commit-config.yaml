@@ -22,4 +22,6 @@ repos:
     hooks:
       - id: mypy
 
-# IMP: more as it grows
+# IMP: would add more if this matures or copy from existing project:
+#      the right automatic checks can make review process much more
+#      streamlined
