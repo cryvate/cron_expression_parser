@@ -41,7 +41,6 @@ def parse_token(
     :param maximum: maximum value (inclusive) that is valid for this unit
     :return: an iterable that contains all the valid values for this token
     """
-    # split the token between the
     match token.split(STEP, maxsplit=1):
         case [start_end, step_string]:
             step = int(step_string)
