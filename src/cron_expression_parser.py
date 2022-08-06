@@ -4,7 +4,7 @@ import typing
 # IMP: would be split into multiple files, but this (it being in one file)
 # might make iterating easier in interview
 
-# IMP: I love using constants, I don't like magic numbers in source that are not
+# IMP: I don't like magic numbers/constants in source that are not
 #      defined, even for things that seem stupid to abstract (e.g. the
 #      EMPTY_SPACE). The benefit is having a single-source-of-truth, which
 #      I have seen lead to so many bugs/regressions when things are changed,
@@ -151,10 +151,11 @@ def format_lines(row_data: typing.Iterable[tuple[str, str]]) -> str:
 
     # IMP: I don't like this, all the rest of the functions work on-line,
     #      and could be changed to use e.g. generators, yield (from) and
-    #      send, but this doesn't. Originally I calculated this statically
+    #      send, but this doesn't. Originally I calculated WIDTH statically
     #      but this tightly couples this function to this particular instance
     #      of the generic problem which seems unnecessary.
-    width = len(max(row_data, key=lambda header, _: len(header))) + PADDING
+    length_headers = (len(header) for header, _ in row_data)
+    width = max(length_headers) + PADDING
 
     for column, values in row_data:
         preamble = column.ljust(width)
