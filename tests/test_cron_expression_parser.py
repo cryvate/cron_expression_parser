@@ -34,7 +34,8 @@ def test_parse_token_invalid_raise_exception(token):
     [
         ("5", [5]),
         ("5-10", [5, 6, 7, 8, 9, 10]),
-        ("*/10", [0, 10, 20, 30, 40, 50]), ("5-20/10", [5, 15]),
+        ("*/10", [0, 10, 20, 30, 40, 50]),
+        ("5-20/10", [5, 15]),
     ],
 )
 def test_parse_token(token: str, output: list[int]):
