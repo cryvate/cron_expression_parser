@@ -3,13 +3,13 @@ cron_expression_parser
 
 How to run as CLI
 -----------------
-- Install Python 3.10+ due to typing annotations, recommend [pyenv](https://github.com/pyenv/pyenv)
+- Install Python 3.10+ due to typing annotations used, recommend [pyenv](https://github.com/pyenv/pyenv)
 - Enable this Python to be accessible using `python3`
 - Install using
 ```bash
 pip3 install git@github.com:cryvate/cron_expression_parser.git
 ```
-- You should now be able to run whenever this `python` environment stays enabled, try it using:
+- You should now be able to run whenever this `python3` environment stays enabled, try it using:
 ```bash
 cron_expression_parser "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
