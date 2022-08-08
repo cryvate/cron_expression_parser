@@ -16,7 +16,7 @@ ORDER = {
     "hour": (0, 23),
     "day of month": (0, 31),
     "month": (1, 12),
-    "day of week": (1, 7),
+    "day of week": (0, 6),
 }
 COMMAND = "command"
 PADDING = 2
@@ -25,11 +25,12 @@ SEPARATOR = ","
 STEP = "/"
 RANGE = "-"
 EMPTY_SPACE = " "
+NEW_LINE = "\n"
 
 
 # IMP: this function and others will bail out when a bad
 #      expression is given with little diagnostics. This
-#      is not great UX, would improve this
+#      is not great UX, would improve thi
 def parse_token(
     token: str,
     minimum: int,
@@ -50,10 +51,10 @@ def parse_token(
             # This path cannot be triggered. Helpful for type checking/linting
             raise Exception("This should not be seen...")
 
-    if "*" == start_end:
+    if WILDCARD == start_end:
         begin = minimum
         end = maximum
-    elif "-" in start_end:
+    elif RANGE in start_end:
         begin_str, end_str = start_end.split(RANGE, maxsplit=1)
         begin = int(begin_str)
         end = int(end_str)
@@ -78,7 +79,7 @@ def parse_tokens(
     maximum: int,
 ) -> list[int]:
     """
-    :param tokens: an iterable of tokens, see `token_to_concrete_values`
+    :param tokens: an iterable of tokens, see `parse_token`
     :param minimum: minimum value (inclusive) that is valid for this unit
     :param maximum: maximum value (inclusive) that is valid for this unit
     :return: sorted valid values for this group
@@ -149,11 +150,6 @@ def format_lines(row_data: typing.Iterable[tuple[str, str]]) -> str:
     """
     lines = []
 
-    # IMP: I don't like this, all the rest of the functions work on-line,
-    #      and could be changed to use e.g. generators, yield (from) and
-    #      send, but this doesn't. Originally I calculated WIDTH statically
-    #      but this tightly couples this function to this particular instance
-    #      of the generic problem which seems unnecessary.
     length_headers = (len(header) for header, _ in row_data)
     width = max(length_headers) + PADDING
 
@@ -163,7 +159,7 @@ def format_lines(row_data: typing.Iterable[tuple[str, str]]) -> str:
         values = EMPTY_SPACE.join(values_string)
         lines.append(preamble + values)
 
-    return "\n".join(lines)
+    return NEW_LINE.join(lines)
 
 
 def main(expression: str) -> None:
