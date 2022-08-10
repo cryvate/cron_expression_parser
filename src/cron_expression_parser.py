@@ -30,7 +30,7 @@ NEW_LINE = "\n"
 
 # IMP: this function and others will bail out when a bad
 #      expression is given with little diagnostics. This
-#      is not great UX, would improve thi
+#      is not great UX, would improve this.
 def parse_token(
     token: str,
     minimum: int,
