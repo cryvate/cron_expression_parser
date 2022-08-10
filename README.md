@@ -17,11 +17,11 @@ pip, but I am using `pep-517` build system which is not available in all `pip`s 
 but I have not checked)
 - Install using
 ```bash
-pip3 install git@github.com:cryvate/cron_expression_parser.git
+pip3 install git+https://github.com/cryvate/cron_expression_parser.git
 ```
 - You should now be able to run whenever this `python3` environment stays enabled, try it using:
 ```bash
-cron_expression_parser "*/15 0 1,15 * 1-5 /usr/bin/find"
+cron-expression-parser "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 and you will get output like this:
 ```
